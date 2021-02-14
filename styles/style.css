@@ -9,12 +9,15 @@ h1, h2, h3, h5{
 }
 
 a{
+    font-size: 100%;
+    font-weight: bold;
     color: red;
     text-decoration:none;
+    font-family: Ubuntu;
 }
 
 a:hover{
-    text-decoration: underline;
+    color: indigo;
 }
 
 header h1{
@@ -38,12 +41,14 @@ header h1 {
 header nav {
     float: right;
     width: 285px;
+    margin-top: 14px;
 }
 
 header {
     background: white;
     overflow: auto;
     padding: 10px 0 10px 0;
+    border-bottom: lime 2px solid;
 }
 
 main h2{
@@ -54,6 +59,11 @@ main h2{
 main h3{
     font-size: 140%;
     margin: 20px 0 12px 0;
+}
+
+main ul{
+	list-style: circle;
+	list-style-position: inside;
 }
 
 main {
