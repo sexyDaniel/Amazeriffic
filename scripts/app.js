@@ -14,7 +14,11 @@ var main = function(){
             $element.addClass("active");
             $("main .content").empty();
             if($element.parent().is(":nth-child(1)")){
-                console.log("1")
+                $content = $("<ul>")
+                for(var num = toDos.length-1;num>=0;num--){
+                    $content.append($("<li>").text(toDos[num]))
+                }
+                $("main .content").append($content);
             } else if ($element.parent().is(":nth-child(2)")){
                 $content = $("<ul>")
                 toDos.forEach(function(todo){
