@@ -31,5 +31,6 @@ var main = function(){
             return false;
         })
     })
+    $(".tabs a:first-child span").trigger("click");
 }
 $(document).ready(main);
