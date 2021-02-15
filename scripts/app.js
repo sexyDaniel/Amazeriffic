@@ -26,7 +26,18 @@ var main = function(){
                 })
                 $("main .content").append($content);
             } else if ($element.parent().is(":nth-child(3)")){
-                console.log("3")
+                $content = $('<textarea type="text" class="newQuestion" placeholder="Введите новую задачу"/>'+
+				'<button class="addBtn">+</button>')
+                $("main .content").append($content);
+                var newQuestion;
+                $(".addBtn").on("click",function(){
+                    newQuestion = $(".newQuestion").val();
+                    if(newQuestion!=''){
+                        toDos.push(newQuestion);
+                        alert("Добавлена новая задача");
+                        $(".newQuestion").val("")
+                    }
+                })
             } 
             return false;
         })
