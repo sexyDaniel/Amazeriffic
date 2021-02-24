@@ -29,13 +29,26 @@ var toDoObjects = [
         }
     ];
 var organizeByTags = function (toDoObjects) {
-    console.log("organizeByTags вызвана");
+    var tags = []
+    toDoObjects.forEach(toDo => {
+        toDo.tags.forEach(tag=>{
+            if(tags.indexOf(tag)===-1)
+            tags.push(tag)
+        })
+    });
+    var tagObjects = tags.map(tag=>{
+        var toDoWithTags = []
+        toDoObjects.forEach(toDo=>{
+            if(toDo.tags.indexOf(tag)!==-1){
+                toDoWithTags.push(toDo.description)
+            }
+        })
+        return {"name":tag,"toDos":toDoWithTags}
+    })
+    console.log(tagObjects);
 };
 var main = function () {
     "use strict";
-    var organizeByTags = function(){
-        console.log("organizeByTags вызвана");
-    };
     organizeByTags(toDoObjects);
 };
 $(document).ready(main);
