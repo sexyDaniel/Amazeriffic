@@ -16,6 +16,7 @@ main .content{
     font-size: 110%;
     padding-top: 10px;
     padding-left: 20px;
+    padding-right: 20px;
     padding-bottom: 20px;
     margin-bottom: 200px;
     background: #f9e833c9;
@@ -23,25 +24,35 @@ main .content{
 }
 
 main .content li{
-    margin-bottom: 10px;
-    width: 810px;
-    background-color: rgba(126, 252, 0, 0.342);
-    padding: 2px 2px 2px 2px;
+    margin-bottom: 2px;
+    background-color: lavenderblush;
+    padding: 5px;
     list-style: none;
+    padding-left: 20px;
 }
 
-.newQuestion{
+textarea{
     font-size: 110%;
     border-radius: 5px;
     max-width: 400px;
     min-width: 300px;
     max-height: 100px;
+    min-height: 50px;
+    display: block;
+    margin-bottom: 10px;
 }
 
 .addBtn{
     display: block;
     font-size: 120%;
-    
+}
+
+.tagLable{
+    padding: 5px;
+    margin-bottom: 2px;
+    background-color: rgba(126, 252, 0, 0.466);
+    font-size: 130%;
+    border-radius: 5px;
 }
 
 

@@ -1,8 +1,6 @@
 var main = function(toDosObj){
-    var toDos = toDosObj.map(function(toDo){
-        return toDo.description
-    })
-    $(".tabs a span").toArray().forEach(function(element){
+    var toDos = toDosObj.map(toDo=>{return toDo.description})
+    $(".tabs a span").toArray().forEach(element=>{
         $(element).on("click",function(){
             var $element = $(element)
             var $content;
@@ -17,17 +15,18 @@ var main = function(toDosObj){
                 $("main .content").append($content);
             } else if ($element.parent().is(":nth-child(2)")){
                 $content = $("<ul>")
-                toDos.forEach(function(todo){
+                toDos.forEach(todo=>{
                     $content.append($("<li>").text(todo))
                 })
                 $("main .content").append($content);
             }else if ($element.parent().is(":nth-child(3)")){
                 console.log("Tegs click")
-                var organizedByTag = organizeByTag(toDosObj)
-                organizedByTag.forEach(function(tag){
-                    var $tagName = $("<h3>").text(tag.name)
+                var organizedByTag = organizeByTags(toDosObj)
+                organizedByTag.forEach(tag=>{
+                    var $tagName = $("<h4>").text(tag.name)
+                    $tagName.addClass("tagLable")
                     $content = $("<ul>")
-                    tag.toDos.forEach(function(description){
+                    tag.toDos.forEach(description=>{
                         var $li = $("<li>").text(description)
                         $content.append($li)
                     })
@@ -35,16 +34,19 @@ var main = function(toDosObj){
                     $("main .content").append($content)
                 })
             } else if ($element.parent().is(":nth-child(4)")){
-                $content = $('<textarea type="text" class="newQuestion" placeholder="Введите новую задачу"/>'+
-				'<button class="addBtn">+</button>')
+                $content = $('<textarea type="text" class="description" placeholder="Введите новую задачу"/>'
+			+'<textarea type="text" class="tags" placeholder="Введите теги"/>'+'<button class="addBtn">+</button>')
                 $("main .content").append($content);
-                var newQuestion;
                 $(".addBtn").on("click",function(){
-                    newQuestion = $(".newQuestion").val();
-                    if(newQuestion!=''){
-                        toDos.push(newQuestion);
+                    var description=$(".description").val();
+                    var tags = $(".tags").val().split(",");
+                    console.log(tags)
+                    if(description!=''){
+                        toDosObj.push({"description":description,"tags":tags})
+                        toDos = toDosObj.map(toDo=> {return toDo.description})                           
                         alert("Добавлена новая задача");
-                        $(".newQuestion").val("")
+                        $(".description").val("")
+                        $(".tags").val("")
                     }
                 })
             } 
@@ -58,3 +60,23 @@ $(document).ready(function(){
         main(toDosObj)
     })
 });
+
+var organizeByTags = function (toDoObjects) {
+    var tags = []
+    toDoObjects.forEach(toDo => {
+        toDo.tags.forEach(tag=>{
+            if(tags.indexOf(tag)===-1)
+            tags.push(tag)
+        })
+    });
+    var tagObjects = tags.map(tag=>{
+        var toDoWithTags = []
+        toDoObjects.forEach(toDo=>{
+            if(toDo.tags.indexOf(tag)!==-1){
+                toDoWithTags.push(toDo.description)
+            }
+        })
+        return {"name":tag,"toDos":toDoWithTags}
+    })
+    return tagObjects
+};
