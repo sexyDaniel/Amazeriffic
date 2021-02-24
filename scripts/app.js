@@ -1,11 +1,7 @@
-var main = function(){
-    var toDos = ["Прочитать книгу",
-    "Купить молоко",
-    "Написать курсач",
-    "Сдать лабу",
-    "Посмотреть лекцию",
-    "Пройти собеседование",
-    "Сделать домашку"]
+var main = function(toDosObj){
+    var toDos = toDosObj.map(function(toDo){
+        return toDo.description
+    })
     $(".tabs a span").toArray().forEach(function(element){
         $(element).on("click",function(){
             var $element = $(element)
@@ -44,4 +40,8 @@ var main = function(){
     })
     $(".tabs a:first-child span").trigger("click");
 }
-$(document).ready(main);
+$(document).ready(function(){
+    $.getJSON("toDosTags.json",function(toDosObj){
+        main(toDosObj)
+    })
+});
