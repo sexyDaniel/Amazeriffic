@@ -41,6 +41,10 @@ var main = function(toDosObj){
                     var description=$(".description").val();
                     var tags = $(".tags").val().split(",");
                     console.log(tags)
+                    $.post("/todos", {}, function (response) {
+                        console.log("Мы отправили данные и получили ответ сервера!");
+                        console.log(response);
+                    });                        
                     if(description!=''){
                         toDosObj.push({"description":description,"tags":tags})
                         toDos = toDosObj.map(toDo=> {return toDo.description})                           
@@ -56,7 +60,7 @@ var main = function(toDosObj){
     $(".tabs a:first-child span").trigger("click");
 }
 $(document).ready(function(){
-    $.getJSON("../toDosTags.json",function(toDosObj){
+    $.getJSON("toDosTags.json",function(toDosObj){
         main(toDosObj)
     })
 });
