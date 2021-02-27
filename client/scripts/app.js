@@ -56,7 +56,7 @@ var main = function(toDosObj){
     $(".tabs a:first-child span").trigger("click");
 }
 $(document).ready(function(){
-    $.getJSON("toDosTags.json",function(toDosObj){
+    $.getJSON("../toDosTags.json",function(toDosObj){
         main(toDosObj)
     })
 });
