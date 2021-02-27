@@ -40,17 +40,17 @@ var main = function(toDosObj){
                 $(".addBtn").on("click",function(){
                     var description=$(".description").val();
                     var tags = $(".tags").val().split(",");
-                    console.log(tags)
-                    $.post("/todos", {}, function (response) {
-                        console.log("Мы отправили данные и получили ответ сервера!");
-                        console.log(response);
-                    });                        
+                    console.log(tags)                      
                     if(description!=''){
-                        toDosObj.push({"description":description,"tags":tags})
-                        toDos = toDosObj.map(toDo=> {return toDo.description})                           
-                        alert("Добавлена новая задача");
-                        $(".description").val("")
-                        $(".tags").val("")
+                        var newToDo = {"description":description,"tags":tags}
+                        $.post("/todos", newToDo, function (result) {
+                            console.log(result);
+                            toDosObj.push(newToDo)
+                            toDos = toDosObj.map(toDo=> {return toDo.description}) 
+                            alert("Добавлена новая задача");
+                            $(".description").val("")
+                            $(".tags").val("")
+                        });                           
                     }
                 })
             } 

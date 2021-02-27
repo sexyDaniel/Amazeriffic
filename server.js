@@ -40,8 +40,10 @@ http.createServer(app).listen(3000);
 app.get("/toDosTags.json", function (req, res) {
     res.json(toDos);
 });
+app.use(express.urlencoded());
 app.post("/todos", function (req, res) {
-    console.log("Данные были отправлены на сервер!");
-    // простой объект отправлен обратно
+    var newToDo = req.body;
+    console.log(newToDo);
+    toDos.push(newToDo);
     res.json({"message":"Вы размещаетесь на сервере!"});
 });
