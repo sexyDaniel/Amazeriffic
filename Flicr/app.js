@@ -1,20 +1,24 @@
-var main = function () {
-    var messages = ["первое сообщение", "второе сообщение", "третье","четвертое"];
-    var displayMessage = function (messageIndex) {
-        var $message = $("<p>").text(messages[messageIndex]).hide();
-        $(".message").empty();
-        $(".message ").append($message);
-        $message.fadeIn();
-        setTimeout(function () {
-            messageIndex = messageIndex + 1;
-            displayMessage(messageIndex);
+var main = function (images) {
+    var displayImages = function (imgIndex) {
+    var $img = $("<img>").attr('src', images[imgIndex]).hide();
+     $(".message").empty();
+    $(".message ").append($img);
+    $img.fadeIn();
+    setTimeout(function () {
+         imgIndex = imgIndex + 1;
+        displayImages(imgIndex);
         }, 3000);
-    };
-    displayMessage(0);
+    }
+    displayImages(0)
 }
 $(document).ready(()=>{
-    $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=car&format=json&jsoncallback=?", function(data) {
-        console.log(data)
-    });
-    main()
+    $(".tagSearch").on("click",()=>{
+        let tag = $(".tagInput").val()
+        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags="+tag+"&format=json&jsoncallback=?", function(data) {
+            var images = data.items.map(item=>{
+                return item.media.m
+            })
+            main(images)
+        });
+    })
 });
