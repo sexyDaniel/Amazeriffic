@@ -20,8 +20,8 @@ app.delete("/todos/:id", toDosController.destroy);
 app.get("/users.json", usersController.index);
 app.post("/users",usersController.create);
 app.get("/users/:username", usersController.show);
-app.put("/users/:username", usersController.update);
-app.delete("/users/:username", usersController.destroy);
+app.put("/users/:id", usersController.update);
+app.delete("/users/:id", usersController.destroy);
 
 app.get("/users/:username/toDosTags.json", toDosController.index);
 app.post("/users/:username/toDosTags", toDosController.create);
