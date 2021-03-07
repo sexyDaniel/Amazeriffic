@@ -1,6 +1,6 @@
 var main = function(toDosObj){
     var tabs = [];
-	// добавляем вкладку Новые
+	// вкладка Новые
 	tabs.push({
         "name": "Новые",
         "content": function (callback) {
@@ -18,7 +18,7 @@ var main = function(toDosObj){
             });
         }
     });
-
+    // вкладка Старые
     tabs.push({
         "name": "Старые",
         "content": function (callback) {
@@ -36,7 +36,7 @@ var main = function(toDosObj){
             });
         }
     });
-
+    // вкладка Теги
     tabs.push({
         "name": "Теги",
         "content": function (callback) {
@@ -59,7 +59,7 @@ var main = function(toDosObj){
             });
         }
     });
-
+    // вкладка Добавить
     tabs.push({
         "name": "Добавить",
         "content": function () {
