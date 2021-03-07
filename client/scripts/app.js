@@ -18,6 +18,73 @@ var main = function(toDosObj){
             });
         }
     });
+
+    tabs.push({
+        "name": "Старые",
+        "content": function (callback) {
+            $.getJSON("toDosTags.json", function (toDoObjects) {
+                var $content,
+                    i;
+                $content = $("<ul>");
+                for (i = 0; i <= toDoObjects.length - 1; i++) {
+                    var $todoListItem = liaWithDeleteOnClick(toDoObjects[i]);
+                    $content.append($todoListItem);
+                }
+                callback(null, $content);
+            }).fail(function (jqXHR, textStatus, error) {
+                callback(error, null);
+            });
+        }
+    });
+
+    tabs.push({
+        "name": "Теги",
+        "content": function (callback) {
+            $.getJSON("toDosTags.json", function (toDoObjects) {
+                var organizedByTag = organizeByTags(toDoObjects)
+                organizedByTag.forEach(tag=>{
+                    var $tagName = $("<h4>").text(tag.name)
+                    $tagName.addClass("tagLable")
+                    $content = $("<ul>")
+                    tag.toDos.forEach(description=>{
+                        var $li = $("<li>").text(description)
+                        $content.append($li)
+                    })
+                    $("main .content").append($tagName)
+                    $("main .content").append($content)
+                })
+                callback(null, $content);
+            }).fail(function (jqXHR, textStatus, error) {
+                callback(error, null);
+            });
+        }
+    });
+
+    tabs.push({
+        "name": "Добавить",
+        "content": function () {
+                $content = $('<textarea type="text" class="description" placeholder="Введите новую задачу"/>'
+			+'<textarea type="text" class="tags" placeholder="Введите теги"/>'+'<button class="addBtn">+</button>')
+                $("main .content").append($content);
+                $(".addBtn").on("click",function(){
+                    var description=$(".description").val();
+                    var tags = $(".tags").val().split(",");
+                    console.log(tags)                      
+                    if(description!=''){
+                        var newToDo = {"description":description,"tags":tags}
+                        $.post("/todos", newToDo, function (result) {
+                            console.log(result);
+                            toDosObj.push(newToDo)
+                            toDos = toDosObj.map(toDo=> {return toDo.description}) 
+                            alert("Добавлена новая задача");
+                            $(".description").val("")
+                            $(".tags").val("")
+                        });                           
+                    }
+                })
+            }
+    });
+    
     tabs.forEach(function (tab) {
 		var $aElement = $("<a>").attr("href",""),
 			$spanElement = $("<span>").text(tab.name);
@@ -71,7 +138,7 @@ var liaWithDeleteOnClick = function(todo) {
     var $todoListItem = $("<li>").text(todo.description),
         $todoRemoveLink = $("<a>").attr("href", "todos/" + todo._id);
     $todoRemoveLink.text("Удалить");
-    $todoRemoveLink.addClass("delete")
+    $todoRemoveLink.addClass("delete");
     console.log("todo._id: " + todo._id);
     console.log("todo.description: " + todo.description);
     $todoRemoveLink.on("click", function () {
