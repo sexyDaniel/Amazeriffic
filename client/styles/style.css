@@ -89,6 +89,7 @@ main img{
 
 main .delete{
     float: right;
+    padding-right: 10px;
 }
 
 footer{

@@ -136,8 +136,11 @@ var organizeByTags = function (toDoObjects) {
 
 var liaWithDeleteOnClick = function(todo) {
     var $todoListItem = $("<li>").text(todo.description),
-        $todoRemoveLink = $("<a>").attr("href", "todos/" + todo._id);
+        $todoRemoveLink = $("<a>").attr("href", "todos/" + todo._id),
+        $todoEditLink = $("<a>").attr("href", "todos/" + todo._id);
     $todoRemoveLink.text("Удалить");
+    $todoEditLink.text("Редактировать")
+    $todoEditLink.addClass("delete")
     $todoRemoveLink.addClass("delete");
     console.log("todo._id: " + todo._id);
     console.log("todo.description: " + todo.description);
@@ -152,6 +155,22 @@ var liaWithDeleteOnClick = function(todo) {
         });
         return false;
     });
+    $todoEditLink.on("click", function () {
+        var newDescription = prompt("Введите новое наименование для задачи",
+        todo.description);
+        if (newDescription !== null && newDescription.trim() !== "") {
+            $.ajax({
+                url: "todos/" + todo._id,
+                type: "PUT",
+                data: { "description": newDescription }
+            }).done(function (response) {
+                $(".tabs a:nth-child(1) span").trigger("click");
+            }).fail(function (err) {});
+        }
+        return false;
+    });
     $todoListItem.append($todoRemoveLink);
+    $todoListItem.append($todoEditLink);
     return $todoListItem;
 };
+

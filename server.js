@@ -13,7 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 mongoose.connect('mongodb://localhost/amazerific', {useNewUrlParser: true,useUnifiedTopology: true })
 
 app.get("/toDosTags.json", toDosController.index);
-app.get("/todos/:id", toDosController.show); 
 app.post("/todos", toDosController.create);
 app.put("/todos/:id", toDosController.update);
 app.delete("/todos/:id", toDosController.destroy);
