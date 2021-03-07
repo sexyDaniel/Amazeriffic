@@ -1,37 +1,30 @@
 var express = require("express"),
 	http = require("http"),
 	mongoose = require("mongoose"),
-	app = express(); 
-app.use(express.static(__dirname + "/client"));
-var ToDoSchema = mongoose.Schema({
-    description: String,
-    tags: [ String ]
-});
-var ToDo = mongoose.model("ToDo", ToDoSchema);
+	usersController = require("./controllers/userController.js"),
+	toDosController = require("./controllers/todoController.js"),
+	app = express();
+
 http.createServer(app).listen(3000);
-app.get("/toDosTags.json", function (req, res) {
-    ToDo.find({}, function (err, toDos) {
-        console.log(toDos)
-        res.json(toDos);
-    });
-});
-app.use(express.urlencoded());
+app.use('/',express.static(__dirname + "/client"));
+app.use('/users/:username',express.static(__dirname + "/client"));
+app.use(express.urlencoded({ extended: true }));
+
 mongoose.connect('mongodb://localhost/amazerific', {useNewUrlParser: true,useUnifiedTopology: true })
-app.post("/todos", function (req, res) {
-	console.log(req.body);
-	var newToDo = new ToDo({"description":req.body.description,
-		"tags":req.body.tags});
-	newToDo.save(function (err, result) {
-		if (err !== null) {
-			console.log(err);
-			res.send("ERROR");
-		} else {
-			ToDo.find({}, function (err, result) {
-				if (err !== null) {
-					res.send("ERROR");
-				}
-				res.json(result);
-			});
-		}
-	});
-});
+
+app.get("/toDosTags.json", toDosController.index);
+app.get("/todos/:id", toDosController.show); 
+app.post("/todos", toDosController.create);
+app.put("/todos/:id", toDosController.update);
+app.delete("/todos/:id", toDosController.destroy);
+
+app.get("/users.json", usersController.index);
+app.post("/users",usersController.create);
+app.get("/users/:username", usersController.show);
+app.put("/users/:username", usersController.update);
+app.delete("/users/:username", usersController.destroy);
+
+app.get("/users/:username/toDosTags.json", toDosController.index);
+app.post("/users/:username/toDosTags", toDosController.create);
+app.put("/users/:username/todos/:id", toDosController.update);
+app.delete("/users/:username/todos/:id", toDosController.destroy);
