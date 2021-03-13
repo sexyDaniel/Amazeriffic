@@ -24,6 +24,9 @@ app.put("/users/:id", usersController.update);
 app.delete("/users/:id", usersController.destroy);
 
 app.get("/users/:username/toDosTags.json", toDosController.index);
+app.post("/users/:username/toDosTags.json", toDosController.index);
+app.post("/users/:username/notes.html", toDosController.index);
+app.get("/users/:username/", toDosController.index);
 app.post("/users/:username/toDosTags", toDosController.create);
 app.put("/users/:username/todos/:id", toDosController.update);
 app.delete("/users/:username/todos/:id", toDosController.destroy);

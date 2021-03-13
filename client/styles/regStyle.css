@@ -1,0 +1,17 @@
+input,button{
+    font-size: 25px;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+}
+
+button{
+    width: 563px;
+}
+
+.content{
+    padding-top: 100px;
+    padding-bottom: 100px;
+    padding-left: 150px;
+    padding-right: 150px;
+}
