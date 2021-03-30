@@ -2,6 +2,53 @@ var User = require("../models/user.js"),
     ToDo = require("../models/todo.js");
 var username=null
 var UsersController = {};
+
+UsersController.login = function(req,res){
+    console.log("Вызван UsersController.login");
+    username = req.body.login
+    console.log(username);
+    if(username==="Admin12345"){
+        User.findOne({username:username}, function (err, user) {
+            if (err !== null) {
+                res.json({message:"no"});
+            } else {
+                res.status(200).json({message:"yes",admin:true});
+            }
+        });
+    }else if(username){
+        User.findOne({"username":username}, function (err, user) {
+            console.log(user);
+            if (user === null) {
+                res.json({message:"no"});
+            } else {
+                res.status(200).json({message:"yes",admin:false});
+            }
+        });
+    }
+}
+
+UsersController.registration = function(req,res){
+    console.log("Вызван UsersController.registration");
+    username = req.body.login
+    if(username){
+        User.findOne({username:username}, function (err, user) {
+            if (user === null) {
+                var newUser = new User({
+                    "username": username
+                });
+                newUser.save(function (err, result) {
+                    if (err !== null) {
+                        console.log(err);
+                    }
+                });
+                res.json({message:"yes"});
+            } else {
+                res.status(200).json({message:"no"});
+            }
+        });
+    }
+}
+
 UsersController.index = function (req, res) {
     console.log("Вызван UsersController.index");
     username = req.params.username || null
@@ -30,13 +77,6 @@ UsersController.index = function (req, res) {
         respondWithToDos({});
     }
 };
-
-// Отобразить пользователя
-UsersController.show = function (req, res) {
-console.log("вызвано действие: показать");
-res.send(200);
-};
-
 // Создать нового пользователя
 UsersController.create = function (req, res) {
     console.log("вызвано действие: добавить UsersController.create");

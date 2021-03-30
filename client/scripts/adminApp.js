@@ -76,15 +76,15 @@ var main = function(users){
 
 var liaWithDeleteOnClick = function(user) {
     var $todoListItem = $("<li>").text(user.username),
-        $todoRemoveLink = $("<a>").attr("href", "users/" + user._id),
-        $todoEditLink = $("<a>").attr("href", "users/" + user._id);
+        $todoRemoveLink = $("<a>").attr("href",  user._id),
+        $todoEditLink = $("<a>").attr("href", user._id);
     $todoRemoveLink.text("Удалить");
     $todoEditLink.text("Редактировать")
     $todoEditLink.addClass("delete")
     $todoRemoveLink.addClass("delete");
     $todoRemoveLink.on("click", function () {
         $.ajax({
-            "url": "users/" + user._id,
+            "url": user._id,
             "type": "DELETE"
         }).done(function (response) {
             $(".tabs a:first-child span").trigger("click");
@@ -98,7 +98,7 @@ var liaWithDeleteOnClick = function(user) {
         user.username);
         if (newUsername !== null && newUsername.trim() !== "") {
             $.ajax({
-                url: "users/" + user._id,
+                url: user._id,
                 type: "PUT",
                 data: { "username": newUsername }
             }).done(function (response) {

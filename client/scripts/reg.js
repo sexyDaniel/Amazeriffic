@@ -1,49 +1,30 @@
 $(document).ready(function(){
     $(".input").on("click", function () {
-        $.getJSON("users.json", function (users) {
-            var login = $(".login").val();
-            console.log(login)
-            if(!checkUser(users,login)){
-                alert("Такого пользователя нет");
-                $(".login").val("")
-                return false
-            }  
-            if(login!==''){
-                document.location.href = "http://localhost:3000/users/"+login+"/notes.html"
-                return false;
+        var login = {"login":$(".login").val()}
+        $.post("/login", login, function (result) {
+            console.log(result);
+            if (result.message==="yes"&&result.admin){
+                alert("Добро пожаловать Admin12345");
+                document.location.href = "/users/"+login.login+"/admin.html"
+            }else if(result.message==="yes"&&!result.admin){
+                alert("Добро пожаловать " + login.login);
+                document.location.href = "/users/"+login.login+"/notes.html"
+            }else{
+                alert("Неправильно введенный логин или его нет");
             }
-        })
+        });      
     })
 
     $(".reg").on("click", function () {
-        $.getJSON("users.json", function (users) {
-            var login = $(".login").val();
-            console.log(login)
-            if(checkUser(users,login)){
+        var login = {"login":$(".login").val()}
+        $.post("/registration",login, function (result) {
+            console.log(result)
+            if (result.message==="yes"){
+                alert("Вы зарегестрированы. Добро пожаловать "  + login.login);
+                document.location.href = "/users/"+login.login+"/notes.html"
+            }else if(result.message==="no"){
                 alert("Такой пользователь уже есть");
-                $(".login").val("")
-                return false
-            }  
-            if(login!==''){
-                var newUser = {"username":login}
-                $.post("/users", newUser, function (result) {
-                    console.log(result);
-                    alert("Вы зарегистрированы");
-                    $("#username").val("")
-                    document.location.href = "http://localhost:3000/users/"+login+"/notes.html"
-                });    
-                return false;
             }
         })
     })
 });
-
-var checkUser=(users,newUser)=>{
-    console.log(users)
-    for(var i =0; i<users.length;i++){
-        if(users[i].username===newUser){
-            return true
-        }
-    }
-    return false
-}

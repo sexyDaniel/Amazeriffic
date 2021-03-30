@@ -17,16 +17,19 @@ app.post("/todos", toDosController.create);
 app.put("/todos/:id", toDosController.update);
 app.delete("/todos/:id", toDosController.destroy);
 
-app.get("/users.json", usersController.index);
+app.get("/users/Admin12345/users.json", usersController.index);
 app.post("/users",usersController.create);
-app.get("/users/:username", usersController.show);
-app.put("/users/:id", usersController.update);
-app.delete("/users/:id", usersController.destroy);
+app.post("/login",usersController.login);
+app.post("/registration",usersController.registration);
+app.put("/users/Admin12345/:id", usersController.update);
+app.delete("/users/Admin12345/:id", usersController.destroy);
 
 app.get("/users/:username/toDosTags.json", toDosController.index);
-app.post("/users/:username/toDosTags.json", toDosController.index);
-app.post("/users/:username/notes.html", toDosController.index);
-app.get("/users/:username/", toDosController.index);
+app.get("/users/:username/notes.html", toDosController.index);
 app.post("/users/:username/toDosTags", toDosController.create);
 app.put("/users/:username/todos/:id", toDosController.update);
 app.delete("/users/:username/todos/:id", toDosController.destroy);
+
+app.use(function (req, res, next) {
+    res.status(404).send("Not Found")
+});
